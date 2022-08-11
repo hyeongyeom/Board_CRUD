@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"
+          href="../webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>글 상세</h2>
+    </div>
+
+    <!-- 추가 -->
+    <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
+
+    <div>
+        <label for="boardId">ID</label>
+        <input type="text" id="boardId" name="boardId" class="form-control" value="1" th:value="${board.id}" readonly>
+    </div>
+    <div>
+        <label for="boardSubject">제목</label>
+        <input type="text" id="boardSubject" name="boardSubject" class="form-control" value="상품A" th:value="${board.subject}" readonly>
+    </div>
+    <div>
+        <label for="name">작성자</label>
+        <input type="text" id="name" name="name" class="form-control" value="작성자" th:value="${board.writer}" readonly>
+    </div>
+    <div>
+        <label for="contents">글 내용</label>
+        <input type="text" id="contents" name="contents" class="form-control" value="10" th:value="${board.contents}" readonly>
+    </div>
+    <div>
+        <label for="regdate">등록일</label>
+        <input type="text" id="regdate" name="regdate" class="form-control" value="10" th:value="${board.createdDate}" readonly>
+    </div>
+
+
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/boards/{uid}/edit(uid=${board.uid})}'|"
+                    type="button" th:text="#{page.updateBoard}">상품 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/boards}'|"
+                    type="button" th:text="#{button.list}">목록으로</button>
+        </div>
+
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/boards/{uid}/delete(uid=${board.uid})}'|"
+                    type="button" th:text="#{button.delete}">삭제</button>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>
