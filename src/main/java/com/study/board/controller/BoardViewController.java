@@ -5,10 +5,8 @@ import com.study.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,12 +25,50 @@ public class BoardViewController {
 
     }
     @GetMapping("/{id}")
-    public  String board(@PathVariable("id") Long id,Model model) {
+    public  String boardDetail(@PathVariable("id") Long id,Model model) {
         Optional<Board> board= boardService.detail(id);
-        model.addAttribute("board",board);
+        if(board.isPresent()) {
+            Board result=board.get();
+            model.addAttribute("board",result);
+
+        }
         return "board";
     }
+    @GetMapping("/add")
+    public String addBoard(Model model) {
+        model.addAttribute("board",new Board());
+        return "addForm";
+    }
+    @PostMapping("/add")
+    public  String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes) {
+        System.out.println("this is point");
+        System.out.println(board.getId());
+        System.out.println(board.getSubject());
+        System.out.println(board.getWriter());
+        boardService.register(board);
+        return "redirect:/board/list";
+    }
+    @GetMapping("/edit/{id}")
+    public String editBoard(@PathVariable("id") Long id, Model model) {
+        Optional<Board> result=boardService.detail(id);
+        Board board=result.get();
+        model.addAttribute("board",board);
+        return "editForm";
+    }
+    @PostMapping("/edit/{id}")
+    public  String edit(@PathVariable("id") Long id,@ModelAttribute Board board) {
+        System.out.println(board.getSubject());
+        board.setId(id);
+        boardService.register(board);
+        return "redirect:/board/{id}";
+    }
 
+    @GetMapping("/delete/{id}")
+        public  String deleteBoard(@PathVariable("id") Long id,Model model) {
+            boardService.delete(id);
+            return "redirect:/board/list";
+
+    }
 //    @GetMapping("/add")
 //    public  String
 }

@@ -18,7 +18,7 @@
         <div class="col">
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
-                    th:onclick="|location.href='@{/boards/add}'|"
+                    th:onclick="|location.href='@{/board/add}'|"
                     type="button">글 등록</button>
         </div>
     </div>
@@ -38,8 +38,8 @@
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
-                <td><a href="item.html" th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.id}">글ID</a></td>
-                <td><a href="item.html" th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.subject}">제목</a></td>
+                <td><a href="item.html" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.id}">글ID</a></td>
+                <td><a href="item.html" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.subject}">제목</a></td>
                 <td th:text="${board.writer}">작성자</td>
                 <td th:text="${board.contents}">내용</td>
                 <td th:text="${board.createdDate}">등록일</td>

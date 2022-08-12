@@ -3,17 +3,15 @@ package com.study.board.domain.entity;
 import java.util.UUID;
 import javax.persistence.*;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Board extends BaseTimeEntity{
@@ -32,6 +30,6 @@ public class Board extends BaseTimeEntity{
     @Column(length = 20)
     private String writer;
     @Column(name = "DELETE_YN",length = 1)
-    private boolean isDelete;
+    private boolean isDelete = false;
     private String password;
 }
