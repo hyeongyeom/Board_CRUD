@@ -31,7 +31,7 @@ public class IntegrationBoardServiceTest {
     @Transactional
     public void boardDetail() {
         //given
-        Board board = Board.builder().subject("DetailTest").writer("현겸").contents("test").build();
+        Board board = getBoard("test");
         em.persist(board);
         //when
         boardRepository.save(board);
@@ -65,7 +65,7 @@ public class IntegrationBoardServiceTest {
     @Transactional
     public void boardUpdate() {
         //given
-        Board board = Board.builder().subject("UpdateTest").writer("현겸").contents("notUpdated").build();
+        Board board = getBoard("notupdated");
         //when
         em.persist(board);
         boardRepository.save(board);
@@ -82,8 +82,8 @@ public class IntegrationBoardServiceTest {
     @Transactional
     public void boardDelete() {
         //given
-        Board board1= Board.builder().subject("DeleteTest1").writer("현겸").contents("deleteTest1").build();
-        Board board2= Board.builder().subject("DeleteTest2").writer("현겸").contents("deleteTest2").build();
+        Board board1= getBoard("test1");
+        Board board2= getBoard("test2");
         em.persist(board1);
         em.persist(board2);
         boardRepository.save(board1);
@@ -100,7 +100,7 @@ public class IntegrationBoardServiceTest {
     @Transactional
     public void updatePasswordFailTest() {
         //given
-        Board board= Board.builder().subject("passowordTest").writer("현겸").contents("notUpdated").password("password").build();
+        Board board= getBoard("notupdated");
         //when
         em.persist(board);
         boardRepository.save(board);
@@ -117,7 +117,7 @@ public class IntegrationBoardServiceTest {
     @Transactional
     public void updatePasswordSuccessTest() {
         //given
-        Board board= Board.builder().subject("passowordTest").writer("현겸").contents("notUpdated").password("password").build();
+        Board board= getBoard("notupdated");
         //when
         em.persist(board);
         boardRepository.save(board);
@@ -127,5 +127,16 @@ public class IntegrationBoardServiceTest {
         Boolean isUpdated= boardService.update(dto);
         //then
         assertThat(isUpdated).isTrue();
+    }
+
+    private Board getBoard(String content) {
+        Board board = Board.builder()
+                .subject("example")
+                .contents(content)
+                .writer("tester")
+                .isDelete(false)
+                .password("")
+                .build();
+        return board;
     }
 }
