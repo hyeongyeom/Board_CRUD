@@ -1,8 +1,11 @@
 package com.study.board.controller;
 
 import com.study.board.domain.entity.Board;
+import com.study.board.domain.model.BoardDTO;
 import com.study.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,17 +27,18 @@ import java.util.UUID;
 public class BoardController {
     private final BoardService boardService;
     @GetMapping("/boards")
-    public ResponseEntity<List<Board>> getBoards() {
+    public ResponseEntity<List<BoardDTO>> getBoards() {
         return ResponseEntity.ok().body(boardService.boardList());
     }
     @PostMapping("/register")
-    public ResponseEntity<Boolean> createBoard(@RequestBody Board board) {
+    public ResponseEntity<BoardDTO> createBoard(@RequestBody Board board) {
+        BoardDTO boardDTO=new BoardDTO(board);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/register").toUriString());
-        return ResponseEntity.created(uri).body(boardService.register(board));
+        return ResponseEntity.created(uri).body(boardService.register(boardDTO));
 
     }
     @GetMapping("/board/{id}")
-    public ResponseEntity<Optional<Board>> getBoard(@PathVariable Long id) {
+    public ResponseEntity<BoardDTO> getBoard(@PathVariable Long id) {
         return ResponseEntity.ok().body(boardService.detail(id));
     }
     @DeleteMapping("/delete/{id}")

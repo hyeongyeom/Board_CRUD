@@ -13,6 +13,13 @@ spring:
       hibernate:
       # show_sql: true
       format_sql: true
+    devtools:
+      livereload:
+        enabled: true     # livereload 사용시 활성화
+      restart:
+        enabled: false
+  thymeleaf:
+    cache: false
 
 logging.level:
   org.hibernate.SQL: debug

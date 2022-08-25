@@ -1,14 +1,17 @@
 package com.study.board.controller;
 
 import com.study.board.domain.entity.Board;
+import com.study.board.domain.model.BoardDTO;
 import com.study.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller
@@ -19,47 +22,47 @@ public class BoardViewController {
 
     @GetMapping("/list")
     public String boards(Model model) {
-        List<Board> boards =boardService.boardList();
-        model.addAttribute("boards",boards);
+        List<BoardDTO> boardDTOS =boardService.boardList();
+        model.addAttribute("boards",boardDTOS);
         return "boards";
 
     }
     @GetMapping("/{id}")
     public  String boardDetail(@PathVariable("id") Long id,Model model) {
-        Optional<Board> board= boardService.detail(id);
-        if(board.isPresent()) {
-            Board result=board.get();
-            model.addAttribute("board",result);
-
-        }
+        BoardDTO boardDTOS= boardService.detail(id);
+        model.addAttribute("board",boardDTOS);
         return "board";
     }
     @GetMapping("/add")
     public String addBoard(Model model) {
-        model.addAttribute("board",new Board());
+        model.addAttribute("board",new BoardDTO());
         return "addForm";
     }
     @PostMapping("/add")
-    public  String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes) {
-        System.out.println("this is point");
-        System.out.println(board.getId());
-        System.out.println(board.getSubject());
-        System.out.println(board.getWriter());
+    public  String addBoard(@ModelAttribute BoardDTO board, RedirectAttributes redirectAttributes) {
         boardService.register(board);
         return "redirect:/board/list";
     }
     @GetMapping("/edit/{id}")
     public String editBoard(@PathVariable("id") Long id, Model model) {
-        Optional<Board> result=boardService.detail(id);
-        Board board=result.get();
-        model.addAttribute("board",board);
+        BoardDTO boardDTOS = boardService.detail(id);
+        model.addAttribute("board",boardDTOS);
         return "editForm";
     }
     @PostMapping("/edit/{id}")
-    public  String edit(@PathVariable("id") Long id,@ModelAttribute Board board) {
-        System.out.println(board.getSubject());
+    public String edit(@PathVariable("id") Long id, @ModelAttribute BoardDTO board, Model model,RedirectAttributes redirectAttributes) {
         board.setId(id);
-        boardService.register(board);
+        try {
+           boolean result= boardService.update(board);
+
+           if(!result) {
+               redirectAttributes.addFlashAttribute("passwordError",true);
+               return "redirect:/board/edit/{id}";
+           }
+
+        }catch(NoSuchElementException e) {
+
+        }
         return "redirect:/board/{id}";
     }
 
@@ -69,6 +72,4 @@ public class BoardViewController {
             return "redirect:/board/list";
 
     }
-//    @GetMapping("/add")
-//    public  String
 }
