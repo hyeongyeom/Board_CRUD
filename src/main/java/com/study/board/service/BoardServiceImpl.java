@@ -3,6 +3,8 @@ package com.study.board.service;
 import com.study.board.domain.entity.Board;
 import com.study.board.domain.entity.repository.BoardRepository;
 import com.study.board.domain.model.BoardDTO;
+import com.study.board.global.exception.ErrorCode;
+import com.study.board.global.exception.board.BoardException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public boolean update(BoardDTO boardDTO) {
         Board board=boardDTO.toEntity(boardDTO);
-        Board registeredBoard=boardRepository.findById(board.getId()).orElseThrow(() -> new NoSuchElementException());
+        Board registeredBoard=boardRepository.findById(board.getId()).orElseThrow(() ->new BoardException(ErrorCode.ENTITY_NOT_FOUND));
 
         if(board.getPassword().equals(registeredBoard.getPassword())) {
             boardRepository.save(board);

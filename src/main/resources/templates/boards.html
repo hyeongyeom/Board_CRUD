@@ -49,54 +49,54 @@
     </div>
 
 </div> <!-- /container -->
-<div th:if="${!boards.isEmpty()}">
-    <nav
-            th:with="
-                pageNumber = ${boards.pageable.pageNumber},
-                pageSize = ${boards.pageable.pageSize},
-                totalPages = ${boards.totalPages},
-                startPage = ${T(Math).floor(pageNumber / pageSize) * pageSize + 1},
-                tempEndPage = ${startPage + pageSize - 1},
-                endPage = (${tempEndPage > totalPages ? totalPages : tempEndPage})"
-            aria-label="Page navigation"
-    >
-        <ul class="pagination ">
+<!--<div th:if="${!boards.isEmpty()}">-->
+<!--    <nav-->
+<!--            th:with="-->
+<!--                pageNumber = ${boards.pageable.pageNumber},-->
+<!--                pageSize = ${boards.pageable.pageSize},-->
+<!--                totalPages = ${boards.totalPages},-->
+<!--                startPage = ${T(Math).floor(pageNumber / pageSize) * pageSize + 1},-->
+<!--                tempEndPage = ${startPage + pageSize - 1},-->
+<!--                endPage = (${tempEndPage > totalPages ? totalPages : tempEndPage})"-->
+<!--            aria-label="Page navigation"-->
+<!--    >-->
+<!--        <ul class="pagination ">-->
 
-            <li th:classappend="${pageNumber + 1 <= pageSize + 1} ? 'disabled'" class="page-item">
-                <a class="page-link" th:href="@{/board(page=1)}">
-                    <span>&laquo;</span>
-                    <span class="sr-only">First</span>
-                </a>
-            </li>
+<!--            <li th:classappend="${pageNumber + 1 <= pageSize + 1} ? 'disabled'" class="page-item">-->
+<!--                <a class="page-link" th:href="@{/board(page=1)}">-->
+<!--                    <span>&laquo;</span>-->
+<!--                    <span class="sr-only">First</span>-->
+<!--                </a>-->
+<!--            </li>-->
 
-            <li th:classappend="${boards.first} ? 'disabled'" class="page-item">
-                <a class="page-link" th:href="${boards.first} ? '#' : @{/board(page=${#numbers.formatDecimal(startPage - pageSize, 0, -1)})}" aria-label="Previous">
-                    <!-- 개인적으로 int 로 변환하는 법을 몰라서 이렇게 길어졌습니다 -->
-                    <span aria-hidden="true">&lt;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
+<!--            <li th:classappend="${boards.first} ? 'disabled'" class="page-item">-->
+<!--                <a class="page-link" th:href="${boards.first} ? '#' : @{/board(page=${#numbers.formatDecimal(startPage - pageSize, 0, -1)})}" aria-label="Previous">-->
+<!--                    &lt;!&ndash; 개인적으로 int 로 변환하는 법을 몰라서 이렇게 길어졌습니다 &ndash;&gt;-->
+<!--                    <span aria-hidden="true">&lt;</span>-->
+<!--                    <span class="sr-only">Previous</span>-->
+<!--                </a>-->
+<!--            </li>-->
 
-            <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-                <a th:text="${page}" class="page-link" th:href="@{/board(page=${page})}"></a>
-            </li>
+<!--            <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">-->
+<!--                <a th:text="${page}" class="page-link" th:href="@{/board(page=${page})}"></a>-->
+<!--            </li>-->
 
-            <li th:classappend="${boards.last} ? 'disabled'" class="page-item">
-                <a class="page-link" th:href="${boards.last} ? '#' : @{/board(page=${#numbers.formatDecimal(startPage + pageSize, 0, -1)})}" aria-label="Next">
-                    <span aria-hidden="true">&gt;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
+<!--            <li th:classappend="${boards.last} ? 'disabled'" class="page-item">-->
+<!--                <a class="page-link" th:href="${boards.last} ? '#' : @{/board(page=${#numbers.formatDecimal(startPage + pageSize, 0, -1)})}" aria-label="Next">-->
+<!--                    <span aria-hidden="true">&gt;</span>-->
+<!--                    <span class="sr-only">Next</span>-->
+<!--                </a>-->
+<!--            </li>-->
 
-            <li th:classappend=" ${T(Math).floor(totalPages/10)*10 <= startPage} ? 'disabled'" class="page-item">
-                <a class="page-link" th:href="@{/board(page=${totalPages})}">
-                    <span>&raquo;</span>
-                    <span class="sr-only">First</span>
-                </a>
-            </li>
+<!--            <li th:classappend=" ${T(Math).floor(totalPages/10)*10 <= startPage} ? 'disabled'" class="page-item">-->
+<!--                <a class="page-link" th:href="@{/board(page=${totalPages})}">-->
+<!--                    <span>&raquo;</span>-->
+<!--                    <span class="sr-only">First</span>-->
+<!--                </a>-->
+<!--            </li>-->
 
-        </ul>
-    </nav>
-</div>
+<!--        </ul>-->
+<!--    </nav>-->
+<!--</div>-->
 </body>
 </html>
